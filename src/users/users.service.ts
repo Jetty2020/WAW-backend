@@ -15,6 +15,7 @@ export class UserService {
 
   async createAccount({
     email,
+    nickname,
     password,
     role,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
@@ -23,7 +24,9 @@ export class UserService {
       if (exists) {
         return { ok: false, error: '이미 다른 유저가 사용하는 메일입니다.' };
       }
-      await this.users.save(this.users.create({ email, password, role }));
+      await this.users.save(
+        this.users.create({ email, nickname, password, role }),
+      );
       return { ok: true };
     } catch (e) {
       return { ok: false, error: '계정을 만들 수 없습니다.' };

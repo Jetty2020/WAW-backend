@@ -6,7 +6,7 @@ import {
 } from '@nestjs/graphql';
 import { Column, Entity } from 'typeorm';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { IsEmail, IsEnum, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
 
 export enum UserRole {
   Guest = 'Guest',
@@ -23,6 +23,12 @@ export class User extends CoreEntity {
   @Field((type) => String)
   @IsEmail()
   email: string;
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  @IsString()
+  @Length(4, 13)
+  nickname: string;
 
   @Column({ select: false })
   @Field((type) => String)
