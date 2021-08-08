@@ -17,6 +17,7 @@
 | | Get Post Detail(with Comment)  |Soon  |
 | | Edit Post  |Soon  |
 | | Delete Post  |Soon  |
+| | Toggle Like  |Soon  |
 | | Search Post  |Soon  |
 |**Comment** | Create Comment  |Soon |
 | | Delete comment  |Soon  |
