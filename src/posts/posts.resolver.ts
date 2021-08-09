@@ -9,6 +9,7 @@ import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
+import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { Artist } from './entities/artist.entity';
 import { Post } from './entities/post.entity';
 import { PostService } from './posts.service';
@@ -63,6 +64,13 @@ export class PostResolver {
     @Args('input') deletePostInput: DeletePostInput,
   ): Promise<DeletePostOutput> {
     return this.postService.deletePost(writer, deletePostInput);
+  }
+
+  @Query(() => SearchPostOutput)
+  searchPost(
+    @Args('input') searchPostInput: SearchPostInput,
+  ): Promise<SearchPostOutput> {
+    return this.postService.searchPostByTitle(searchPostInput);
   }
 }
 @Resolver(() => Artist)

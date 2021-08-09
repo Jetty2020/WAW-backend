@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CONFIG_PAGES } from 'src/common/common.constants';
 import { User } from 'src/users/entities/user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
@@ -10,6 +10,7 @@ import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
+import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { Artist } from './entities/artist.entity';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
@@ -185,6 +186,29 @@ export class PostService {
         ok: false,
         error: '게시물을 삭제하는데 실패했습니다.',
       };
+    }
+  }
+
+  async searchPostByTitle({
+    query,
+    page,
+  }: SearchPostInput): Promise<SearchPostOutput> {
+    try {
+      const [posts, totalResults] = await this.posts.findAndCount({
+        where: {
+          title: ILike(`%${query}%`),
+        },
+        skip: (page - 1) * 25,
+        take: 25,
+      });
+      return {
+        ok: true,
+        posts,
+        totalResults,
+        totalPages: Math.ceil(totalResults / 25),
+      };
+    } catch {
+      return { ok: false, error: '게시물을 검색하는데 실패했습니다.' };
     }
   }
 
