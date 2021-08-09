@@ -28,13 +28,13 @@ export class Post extends CoreEntity {
   })
   artist: Artist;
 
-  @Field(() => Int)
-  @Column()
+  @Field(() => Int, { nullable: true })
+  @Column({ nullable: true })
   @IsInt()
   year: number;
 
-  @Field(() => String)
-  @Column()
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
   @IsString()
   desc: string;
 
