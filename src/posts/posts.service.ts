@@ -11,7 +11,9 @@ import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
+import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
+import { Like } from './entities/like.entity';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
 
@@ -21,6 +23,8 @@ export class PostService {
     @InjectRepository(Post)
     private readonly posts: Repository<Post>,
     private readonly artists: ArtistRepository,
+    @InjectRepository(Like)
+    private readonly likes: Repository<Like>,
   ) {}
 
   async createPost(
@@ -242,6 +246,40 @@ export class PostService {
       return {
         ok: false,
         error: '작가를 불러오는데 실패했습니다.',
+      };
+    }
+  }
+
+  async toggleLike(
+    user: User,
+    toggleLikeInput: ToggleLikeInput,
+  ): Promise<ToggleLikeOutput> {
+    try {
+      const post = await this.posts.findOne(toggleLikeInput.postId);
+      if (!post) {
+        return {
+          ok: false,
+          error: '게시물이 존재하지 않습니다.',
+        };
+      }
+      const like = await this.likes.findOne({
+        where: {
+          user,
+          post,
+        },
+      });
+      if (like) {
+        await this.likes.delete(like.id);
+      } else {
+        await this.likes.save(this.likes.create({ user, post }));
+      }
+      return {
+        ok: true,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: 'Toggle like에 실패했습니다.',
       };
     }
   }

@@ -11,6 +11,7 @@ import { TOKEN_KEY } from './common/common.constants';
 import { PostsModule } from './posts/posts.module';
 import { Post } from './posts/entities/post.entity';
 import { Artist } from './posts/entities/artist.entity';
+import { Like } from './posts/entities/like.entity';
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import { Artist } from './posts/entities/artist.entity';
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== 'prod',
       logging: process.env.NODE_ENV !== 'prod',
-      entities: [User, Post, Artist],
+      entities: [User, Post, Artist, Like],
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,

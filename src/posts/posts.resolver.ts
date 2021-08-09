@@ -10,7 +10,9 @@ import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
+import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
+import { Like } from './entities/like.entity';
 import { Post } from './entities/post.entity';
 import { PostService } from './posts.service';
 
@@ -80,5 +82,19 @@ export class ArtistResolver {
   @Query(() => ArtistOutput)
   artist(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
     return this.postService.findArtistBySlug(artistInput);
+  }
+}
+
+@Resolver(() => Like)
+export class LikeResolver {
+  constructor(private readonly postService: PostService) {}
+
+  @Mutation(() => ToggleLikeOutput)
+  @Role(['Any'])
+  async toggleLike(
+    @AuthUser() authUser: User,
+    @Args('input') toggleLikeInput: ToggleLikeInput,
+  ): Promise<ToggleLikeOutput> {
+    return this.postService.toggleLike(authUser, toggleLikeInput);
   }
 }
