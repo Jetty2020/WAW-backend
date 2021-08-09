@@ -15,25 +15,25 @@ import { UserService } from './users.service';
 export class UserResolver {
   constructor(private readonly usersService: UserService) {}
 
-  @Mutation((returns) => CreateAccountOutput)
+  @Mutation(() => CreateAccountOutput)
   async createAccount(
     @Args('input') createAccountInput: CreateAccountInput,
   ): Promise<CreateAccountOutput> {
     return this.usersService.createAccount(createAccountInput);
   }
 
-  @Mutation((returns) => LoginOutput)
+  @Mutation(() => LoginOutput)
   async login(@Args('input') loginInput: LoginInput): Promise<LoginOutput> {
     return this.usersService.login(loginInput);
   }
 
-  @Query((returns) => User)
+  @Query(() => User)
   @Role(['Any'])
   me(@AuthUser() authUser: User) {
     return authUser;
   }
 
-  @Query((returns) => UserProfileOutput)
+  @Query(() => UserProfileOutput)
   @Role(['Any'])
   async userProfile(
     @Args() userProfileInput: UserProfileInput,
@@ -41,7 +41,7 @@ export class UserResolver {
     return this.usersService.findById(userProfileInput.userId);
   }
 
-  @Mutation((returns) => EditProfileOutput)
+  @Mutation(() => EditProfileOutput)
   @Role(['Any'])
   async editProfile(
     @AuthUser() authUser: User,
