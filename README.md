@@ -10,11 +10,10 @@
 |**User** | Create Account  |Done! |
 ||Login|Done! |
 ||Get Me|Done! |
-||Get User Profile|Soon |
-||Update User|Soon |
+||Get User Profile|Done! |
+||Update User|Done! |
 |**Post** | Create Post |Soon |
 | | Get Posts  |Soon  |
-| | Get Post Detail(with Comment)  |Soon  |
 | | Edit Post  |Soon  |
 | | Delete Post  |Soon  |
 | | Toggle Like  |Soon  |
