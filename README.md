@@ -12,11 +12,13 @@
 ||Get Me|Done! |
 ||Get User Profile|Done! |
 ||Update User|Done! |
-|**Post** | Create Post |Soon |
-| | Get Posts  |Soon  |
+|**Post** | Create Post |Done! |
+| | Get Posts  |Done!  |
+| | Get My Posts  |Soon  |
 | | Edit Post  |Soon  |
 | | Delete Post  |Soon  |
 | | Toggle Like  |Soon  |
+| | Get Posts by Artist  |Soon  |
 | | Search Post  |Soon  |
 |**Comment** | Create Comment  |Soon |
 | | Delete comment  |Soon  |
