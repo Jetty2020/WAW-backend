@@ -5,9 +5,11 @@ import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
+import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
+import { Artist } from './entities/artist.entity';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
 
@@ -111,6 +113,46 @@ export class PostService {
       return {
         ok: false,
         error: '게시물을 불러오는데 실패했습니다.',
+      };
+    }
+  }
+
+  async editPost(
+    writer: User,
+    editPostInput: EditPostInput,
+  ): Promise<EditPostOutput> {
+    try {
+      const post = await this.posts.findOne(editPostInput.postId);
+      if (!post) {
+        return {
+          ok: false,
+          error: '게시물이 존재하지 않습니다.',
+        };
+      }
+      if (writer.id !== post.writerId) {
+        return {
+          ok: false,
+          error: '게시물을 편집할 권한이 없습니다.',
+        };
+      }
+      let artist: Artist = null;
+      if (editPostInput.artistName) {
+        artist = await this.artists.getOrCreate(editPostInput.artistName);
+      }
+      await this.posts.save([
+        {
+          id: editPostInput.postId,
+          ...editPostInput,
+          ...(artist && { artist }),
+        },
+      ]);
+      return {
+        ok: true,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '게시물을 편집하는데 실패했습니다.',
       };
     }
   }

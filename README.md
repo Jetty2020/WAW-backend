@@ -17,7 +17,7 @@
 | | Get My Posts  |Done!  |
 | | Get Post detail  |Done!  |
 | | Get Post by artist  |Done!  |
-| | Edit Post  |Soon  |
+| | Edit Post  |Done!  |
 | | Delete Post  |Soon  |
 | | Toggle Like  |Soon  |
 | | Get Posts by Artist  |Soon  |
