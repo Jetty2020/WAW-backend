@@ -4,6 +4,7 @@ import { Role } from 'src/auth/role.decorator';
 import { User } from 'src/users/entities/user.entity';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
+import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
@@ -49,10 +50,19 @@ export class PostResolver {
   @Mutation(() => EditPostOutput)
   @Role(['Any'])
   editPost(
-    @AuthUser() owner: User,
+    @AuthUser() writer: User,
     @Args('input') editPostInput: EditPostInput,
   ): Promise<EditPostOutput> {
-    return this.postService.editPost(owner, editPostInput);
+    return this.postService.editPost(writer, editPostInput);
+  }
+
+  @Mutation(() => DeletePostOutput)
+  @Role(['Any'])
+  deletePost(
+    @AuthUser() writer: User,
+    @Args('input') deletePostInput: DeletePostInput,
+  ): Promise<DeletePostOutput> {
+    return this.postService.deletePost(writer, deletePostInput);
   }
 }
 @Resolver(() => Artist)

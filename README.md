@@ -18,10 +18,9 @@
 | | Get Post detail  |Done!  |
 | | Get Post by artist  |Done!  |
 | | Edit Post  |Done!  |
-| | Delete Post  |Soon  |
-| | Toggle Like  |Soon  |
-| | Get Posts by Artist  |Soon  |
+| | Delete Post  |Done!  |
 | | Search Post  |Soon  |
+| | Toggle Like  |Soon  |
 |**Comment** | Create Comment  |Soon |
 | | Delete comment  |Soon  |
 |**Data** | Rollback  |Soon |
