@@ -4,6 +4,7 @@ import { CONFIG_PAGES } from 'src/common/common.constants';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
+import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
@@ -60,7 +61,33 @@ export class PostService {
     } catch {
       return {
         ok: false,
-        error: 'Could not load Posts',
+        error: '게시글 불러오는데 실패했습니다.',
+      };
+    }
+  }
+
+  async myPosts(writer: User, { page }: MyPostsInput): Promise<MyPostsOutput> {
+    try {
+      const [posts, totalResults] = await this.posts.findAndCount({
+        where: {
+          writer,
+        },
+        skip: (page - 1) * CONFIG_PAGES,
+        take: CONFIG_PAGES,
+        order: {
+          createdAt: 'DESC',
+        },
+      });
+      return {
+        ok: true,
+        posts,
+        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalResults,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '내 게시글을 불러오는데 실패했습니다.',
       };
     }
   }
