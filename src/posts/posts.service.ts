@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CONFIG_PAGES } from 'src/common/common.constants';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
+import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
@@ -110,6 +111,40 @@ export class PostService {
       return {
         ok: false,
         error: '게시물을 불러오는데 실패했습니다.',
+      };
+    }
+  }
+
+  async findArtistBySlug({ slug, page }: ArtistInput): Promise<ArtistOutput> {
+    try {
+      const artist = await this.artists.findOne({ slug });
+      if (!artist) {
+        return {
+          ok: false,
+          error: '작가를 찾을 수 없습니다.',
+        };
+      }
+      const [posts, totalResults] = await this.posts.findAndCount({
+        where: {
+          artist,
+        },
+        order: {
+          createdAt: 'DESC',
+        },
+        take: CONFIG_PAGES,
+        skip: (page - 1) * CONFIG_PAGES,
+      });
+      return {
+        ok: true,
+        posts,
+        artist,
+        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalResults,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '작가를 불러오는데 실패했습니다.',
       };
     }
   }
