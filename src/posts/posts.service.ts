@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
+import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
@@ -88,6 +89,27 @@ export class PostService {
       return {
         ok: false,
         error: '내 게시글을 불러오는데 실패했습니다.',
+      };
+    }
+  }
+
+  async findPostById({ postId }: PostDetailInput): Promise<PostDetailOutput> {
+    try {
+      const post = await this.posts.findOne(postId);
+      if (!post) {
+        return {
+          ok: false,
+          error: '게시물을 찾을 수 없습니다.',
+        };
+      }
+      return {
+        ok: true,
+        post,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '게시물을 불러오는데 실패했습니다.',
       };
     }
   }

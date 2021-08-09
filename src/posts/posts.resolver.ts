@@ -4,6 +4,7 @@ import { Role } from 'src/auth/role.decorator';
 import { User } from 'src/users/entities/user.entity';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
+import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { Post } from './entities/post.entity';
 import { PostService } from './posts.service';
@@ -33,5 +34,12 @@ export class PostResolver {
     @Args('input') myPostsInput: MyPostsInput,
   ): Promise<MyPostsOutput> {
     return this.postService.myPosts(writer, myPostsInput);
+  }
+
+  @Query(() => PostDetailOutput)
+  postDetail(
+    @Args('input') postDetailInput: PostDetailInput,
+  ): Promise<PostDetailOutput> {
+    return this.postService.findPostById(postDetailInput);
   }
 }

@@ -14,7 +14,8 @@
 ||Update User|Done! |
 |**Post** | Create Post |Done! |
 | | Get Posts  |Done!  |
-| | Get My Posts  |Soon  |
+| | Get My Posts  |Done!  |
+| | Get Post detail  |Done!  |
 | | Edit Post  |Soon  |
 | | Delete Post  |Soon  |
 | | Toggle Like  |Soon  |
