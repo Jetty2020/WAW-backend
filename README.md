@@ -16,7 +16,7 @@
 |                |       Get Me       |  Done!   |
 |                |  Get User Profile  |  Done!   |
 |                |    Update User     |  Done!   |
-|                |       Is me        |   Soon   |
+|                |       Is me        |  Done!   |
 | **Post**       |    Create Post     |  Done!   |
 |                |     Get Posts      |  Done!   |
 |                |    Get My Posts    |  Done!   |
@@ -27,7 +27,7 @@
 |                |    Search Post     |  Done!   |
 |                |    Toggle Like     |  Done!   |
 |                | likesCount column  |  Done!   |
-|                |   isLike column    |   Soon   |
+|                |   isLike column    |  Done!   |
 | **Comment**    |   Create Comment   |   Soon   |
 |                |   Delete comment   |   Soon   |
 | **Data**       |      Rollback      |   Soon   |

@@ -1,5 +1,5 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IsInt, IsString, Length } from 'class-validator';
+import { IsBoolean, IsInt, IsString, Length } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
@@ -55,4 +55,8 @@ export class Post extends CoreEntity {
   @Field(() => Int)
   @IsInt()
   likesNum: number;
+
+  @Field(() => Boolean)
+  @IsBoolean()
+  isLike: boolean;
 }

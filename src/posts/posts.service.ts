@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CONFIG_PAGES } from 'src/common/common.constants';
+import { JwtService } from 'src/jwt/jwt.service';
 import { User } from 'src/users/entities/user.entity';
 import { ILike, Repository } from 'typeorm';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
@@ -25,6 +26,7 @@ export class PostService {
     private readonly artists: ArtistRepository,
     @InjectRepository(Like)
     private readonly likes: Repository<Like>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async createPost(
@@ -224,6 +226,26 @@ export class PostService {
         },
       });
       return totalLikes;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async checkILike(ctx: any, post: Post) {
+    try {
+      let decoded;
+      if (!ctx.token) return false;
+      else decoded = this.jwtService.verify(ctx.token.toString());
+      const exist = await this.likes.find({
+        where: {
+          post,
+          user: {
+            id: decoded?.id,
+          },
+        },
+      });
+      return Boolean(exist.length);
     } catch (err) {
       console.error(err);
       throw err;

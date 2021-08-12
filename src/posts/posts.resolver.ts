@@ -5,6 +5,7 @@ import {
   Query,
   ResolveField,
   Parent,
+  Context,
 } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Role } from 'src/auth/role.decorator';
@@ -83,8 +84,13 @@ export class PostResolver {
   }
 
   @ResolveField(() => Number)
-  async likesNum(@Parent() post: Post) {
+  likesNum(@Parent() post: Post) {
     return this.postService.getLikesNumber(post);
+  }
+
+  @ResolveField(() => Boolean)
+  isLike(@Context() ctx: any, @Parent() post: Post) {
+    return this.postService.checkILike(ctx, post);
   }
 }
 @Resolver(() => Artist)
