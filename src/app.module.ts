@@ -13,6 +13,7 @@ import { Post } from './posts/entities/post.entity';
 import { Artist } from './posts/entities/artist.entity';
 import { Like } from './posts/entities/like.entity';
 import { Comment } from './posts/entities/comment.entity';
+import { UploadsModule } from './upload/uploads.module';
 
 @Module({
   imports: [
@@ -28,6 +29,8 @@ import { Comment } from './posts/entities/comment.entity';
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
         PRIVATE_KEY: Joi.string().required(),
+        AWS_KEY: Joi.string().required(),
+        AWS_SECRET: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -51,6 +54,7 @@ import { Comment } from './posts/entities/comment.entity';
     AuthModule,
     UsersModule,
     PostsModule,
+    UploadsModule,
   ],
   controllers: [],
   providers: [],
