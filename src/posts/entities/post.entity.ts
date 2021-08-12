@@ -51,4 +51,8 @@ export class Post extends CoreEntity {
   @Field(() => [Like])
   @OneToMany(() => Like, (like) => like.post)
   likes: Like[];
+
+  @Field(() => Int)
+  @IsInt()
+  likesNum: number;
 }

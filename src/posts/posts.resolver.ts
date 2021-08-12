@@ -1,4 +1,11 @@
-import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Resolver,
+  Query,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Role } from 'src/auth/role.decorator';
 import { User } from 'src/users/entities/user.entity';
@@ -73,6 +80,11 @@ export class PostResolver {
     @Args('input') searchPostInput: SearchPostInput,
   ): Promise<SearchPostOutput> {
     return this.postService.searchPostByTitle(searchPostInput);
+  }
+
+  @ResolveField(() => Number)
+  async likesNum(@Parent() post: Post) {
+    return this.postService.getLikesNumber(post);
   }
 }
 @Resolver(() => Artist)

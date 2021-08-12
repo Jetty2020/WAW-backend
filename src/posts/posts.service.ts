@@ -216,6 +216,20 @@ export class PostService {
     }
   }
 
+  async getLikesNumber(post: Post) {
+    try {
+      const [_, totalLikes] = await this.likes.findAndCount({
+        where: {
+          post,
+        },
+      });
+      return totalLikes;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
   async findArtistBySlug({ slug, page }: ArtistInput): Promise<ArtistOutput> {
     try {
       const artist = await this.artists.findOne({ slug });
