@@ -11,6 +11,10 @@ import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Role } from 'src/auth/role.decorator';
 import { User } from 'src/users/entities/user.entity';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
+import {
+  CreateCommentInput,
+  CreateCommentOutput,
+} from './dtos/create-comment.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
@@ -20,6 +24,7 @@ import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
+import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
 import { Post } from './entities/post.entity';
 import { PostService } from './posts.service';
@@ -114,5 +119,19 @@ export class LikeResolver {
     @Args('input') toggleLikeInput: ToggleLikeInput,
   ): Promise<ToggleLikeOutput> {
     return this.postService.toggleLike(authUser, toggleLikeInput);
+  }
+}
+
+@Resolver(() => Comment)
+export class CommentResolver {
+  constructor(private readonly postService: PostService) {}
+
+  @Mutation(() => CreateCommentOutput)
+  @Role(['Any'])
+  async createComment(
+    @AuthUser() authUser: User,
+    @Args('input') createcommentInput: CreateCommentInput,
+  ): Promise<CreateCommentOutput> {
+    return this.postService.createComment(authUser, createcommentInput);
   }
 }

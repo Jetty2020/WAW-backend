@@ -16,7 +16,6 @@
 |                |       Get Me       |  Done!   |
 |                |  Get User Profile  |  Done!   |
 |                |    Update User     |  Done!   |
-|                |       Is me        |  Done!   |
 | **Post**       |    Create Post     |  Done!   |
 |                |     Get Posts      |  Done!   |
 |                |    Get My Posts    |  Done!   |

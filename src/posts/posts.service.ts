@@ -5,6 +5,10 @@ import { JwtService } from 'src/jwt/jwt.service';
 import { User } from 'src/users/entities/user.entity';
 import { ILike, Repository } from 'typeorm';
 import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
+import {
+  CreateCommentInput,
+  CreateCommentOutput,
+} from './dtos/create-comment.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
@@ -14,6 +18,7 @@ import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
+import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
 import { Post } from './entities/post.entity';
 import { ArtistRepository } from './repositoties/artist.repository';
@@ -27,6 +32,8 @@ export class PostService {
     @InjectRepository(Like)
     private readonly likes: Repository<Like>,
     private readonly jwtService: JwtService,
+    @InjectRepository(Comment)
+    private readonly comments: Repository<Comment>,
   ) {}
 
   async createPost(
@@ -316,6 +323,33 @@ export class PostService {
       return {
         ok: false,
         error: 'Toggle like에 실패했습니다.',
+      };
+    }
+  }
+
+  async createComment(
+    writer: User,
+    createCommentInput: CreateCommentInput,
+  ): Promise<CreateCommentOutput> {
+    try {
+      const newComment = this.comments.create(createCommentInput);
+      newComment.user = writer;
+      const post = await this.posts.findOne(createCommentInput.postId);
+      if (!post) {
+        return {
+          ok: false,
+          error: '게시물이 존재하지 않습니다.',
+        };
+      }
+      newComment.post = post;
+      await this.comments.save(newComment);
+      return {
+        ok: true,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '댓글 생성에 실패했습니다.',
       };
     }
   }

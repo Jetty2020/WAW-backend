@@ -12,6 +12,7 @@ import { PostsModule } from './posts/posts.module';
 import { Post } from './posts/entities/post.entity';
 import { Artist } from './posts/entities/artist.entity';
 import { Like } from './posts/entities/like.entity';
+import { Comment } from './posts/entities/comment.entity';
 
 @Module({
   imports: [
@@ -38,7 +39,7 @@ import { Like } from './posts/entities/like.entity';
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== 'prod',
       logging: process.env.NODE_ENV !== 'prod',
-      entities: [User, Post, Artist, Like],
+      entities: [User, Post, Artist, Like, Comment],
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,

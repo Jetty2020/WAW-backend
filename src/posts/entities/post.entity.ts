@@ -4,6 +4,7 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { Artist } from './artist.entity';
+import { Comment } from './comment.entity';
 import { Like } from './like.entity';
 
 @InputType('PostInputType', { isAbstract: true })
@@ -59,4 +60,12 @@ export class Post extends CoreEntity {
   @Field(() => Boolean)
   @IsBoolean()
   isLike: boolean;
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.post, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    eager: true,
+  })
+  comments: Comment[];
 }

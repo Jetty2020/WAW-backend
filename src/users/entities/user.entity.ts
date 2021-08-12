@@ -11,6 +11,7 @@ import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
 import { InternalServerErrorException } from '@nestjs/common';
 import { Post } from 'src/posts/entities/post.entity';
 import { Like } from 'src/posts/entities/like.entity';
+import { Comment } from 'src/posts/entities/comment.entity';
 
 export enum UserRole {
   Guest = 'Guest',
@@ -51,6 +52,14 @@ export class User extends CoreEntity {
   @Field(() => [Like])
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.user, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    eager: true,
+  })
+  comments: Comment[];
 
   @BeforeInsert()
   @BeforeUpdate()
