@@ -10,6 +10,10 @@ import {
   CreateCommentOutput,
 } from './dtos/create-comment.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
+import {
+  DeleteCommentInput,
+  DeleteCommentOutput,
+} from './dtos/delete-comment.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
@@ -350,6 +354,36 @@ export class PostService {
       return {
         ok: false,
         error: '댓글 생성에 실패했습니다.',
+      };
+    }
+  }
+
+  async deleteComment(
+    writer: User,
+    { commentId }: DeleteCommentInput,
+  ): Promise<DeleteCommentOutput> {
+    try {
+      const comment = await this.comments.findOne(commentId);
+      if (!comment) {
+        return {
+          ok: false,
+          error: '댓글이 존재하지 않습니다.',
+        };
+      }
+      if (writer?.id !== comment?.userId) {
+        return {
+          ok: false,
+          error: '댓글을 삭제할 권한이 없습니다.',
+        };
+      }
+      await this.comments.delete(commentId);
+      return {
+        ok: true,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '댓글을 삭제하는데 실패했습니다.',
       };
     }
   }

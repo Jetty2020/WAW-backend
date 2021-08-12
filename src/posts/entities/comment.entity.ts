@@ -2,7 +2,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString, Length } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 import { Post } from './post.entity';
 
 @InputType('CommentInputType', { isAbstract: true })
@@ -21,9 +21,15 @@ export class Comment extends CoreEntity {
   })
   user: User;
 
+  @RelationId((comment: Comment) => comment.user)
+  userId: number;
+
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.comments, {
     onDelete: 'CASCADE',
   })
   post: Post;
+
+  @RelationId((comment: Comment) => comment.post)
+  postId: number;
 }

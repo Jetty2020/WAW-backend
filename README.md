@@ -27,6 +27,6 @@
 |                |    Toggle Like     |  Done!   |
 |                | likesCount column  |  Done!   |
 |                |   isLike column    |  Done!   |
-| **Comment**    |   Create Comment   |   Soon   |
-|                |   Delete comment   |   Soon   |
+| **Comment**    |   Create Comment   |  Done!   |
+|                |   Delete comment   |  Done!   |
 | **Data**       |      Rollback      |   Soon   |

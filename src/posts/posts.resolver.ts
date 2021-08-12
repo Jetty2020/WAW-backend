@@ -16,6 +16,10 @@ import {
   CreateCommentOutput,
 } from './dtos/create-comment.dto';
 import { CreatePostInput, CreatePostOutput } from './dtos/create-post.dto';
+import {
+  DeleteCommentInput,
+  DeleteCommentOutput,
+} from './dtos/delete-comment.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
@@ -133,5 +137,14 @@ export class CommentResolver {
     @Args('input') createcommentInput: CreateCommentInput,
   ): Promise<CreateCommentOutput> {
     return this.postService.createComment(authUser, createcommentInput);
+  }
+
+  @Mutation(() => DeleteCommentOutput)
+  @Role(['Any'])
+  async deleteComment(
+    @AuthUser() authUser: User,
+    @Args('input') deletecommentInput: DeleteCommentInput,
+  ): Promise<DeleteCommentOutput> {
+    return this.postService.deleteComment(authUser, deletecommentInput);
   }
 }
