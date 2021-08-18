@@ -25,9 +25,19 @@ export class UserService {
     role,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
     try {
-      const exists = await this.users.findOne({ email });
-      if (exists) {
-        return { ok: false, error: '이미 다른 유저가 사용하는 메일입니다.' };
+      const existsEmail = await this.users.findOne({ email });
+      const existsNickname = await this.users.findOne({ nickname });
+      if (existsEmail) {
+        return {
+          ok: false,
+          error: `${email} 은 이미 사용하는 메일 주소입니다.`,
+        };
+      }
+      if (existsNickname) {
+        return {
+          ok: false,
+          error: `${nickname} 은 이미 사용하는 Username입니다.`,
+        };
       }
       await this.users.save(
         this.users.create({ email, nickname, password, role }),
