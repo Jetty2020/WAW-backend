@@ -12,12 +12,13 @@ export class Comment extends CoreEntity {
   @Field(() => String)
   @Column()
   @IsString()
-  @Length(0, 100)
+  @Length(0, 500)
   content: string;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.comments, {
     onDelete: 'CASCADE',
+    eager: true,
   })
   user: User;
 

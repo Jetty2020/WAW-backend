@@ -57,7 +57,6 @@ export class User extends CoreEntity {
   @OneToMany(() => Comment, (comment) => comment.user, {
     nullable: true,
     onDelete: 'SET NULL',
-    eager: true,
   })
   comments: Comment[];
 

@@ -349,6 +349,7 @@ export class PostService {
       await this.comments.save(newComment);
       return {
         ok: true,
+        id: newComment.id,
       };
     } catch {
       return {
