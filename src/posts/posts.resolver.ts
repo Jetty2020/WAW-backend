@@ -22,6 +22,7 @@ import {
 } from './dtos/delete-comment.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
+import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
@@ -129,6 +130,13 @@ export class LikeResolver {
 @Resolver(() => Comment)
 export class CommentResolver {
   constructor(private readonly postService: PostService) {}
+
+  @Query(() => GetCommentsOutput)
+  getComments(
+    @Args('input') getCommentInput: GetCommentsInput,
+  ): Promise<GetCommentsOutput> {
+    return this.postService.findCommentsByPostId(getCommentInput);
+  }
 
   @Mutation(() => CreateCommentOutput)
   @Role(['Any'])

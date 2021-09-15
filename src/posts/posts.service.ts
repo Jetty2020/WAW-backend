@@ -16,6 +16,7 @@ import {
 } from './dtos/delete-comment.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
+import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
@@ -327,6 +328,37 @@ export class PostService {
       return {
         ok: false,
         error: 'Toggle like에 실패했습니다.',
+      };
+    }
+  }
+
+  async findCommentsByPostId({
+    postId,
+  }: GetCommentsInput): Promise<GetCommentsOutput> {
+    try {
+      const [comments, totalResults] = await this.comments.findAndCount({
+        where: {
+          post: postId,
+        },
+        order: {
+          createdAt: 'DESC',
+        },
+      });
+      if (!comments) {
+        return {
+          ok: false,
+          error: '댓글을 찾을 수 없습니다.',
+        };
+      }
+      return {
+        ok: true,
+        comments,
+        totalResults,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '댓글을 불러오는데 실패했습니다.',
       };
     }
   }
