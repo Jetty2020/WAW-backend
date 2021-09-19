@@ -15,7 +15,7 @@ import {
   DeleteCommentOutput,
 } from './dtos/delete-comment.dto';
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
-import { EditPostInput, EditPostOutput } from './dtos/edti-post.dto';
+import { EditPostInput, EditPostOutput } from './dtos/edit-post.dto';
 import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';

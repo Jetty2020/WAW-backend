@@ -14,7 +14,7 @@ export class Post extends CoreEntity {
   @Field(() => String)
   @Column()
   @IsString()
-  @Length(2, 100)
+  @Length(1, 100)
   title: string;
 
   @Field(() => String)
