@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CONFIG_PAGES } from 'src/common/common.constants';
+import { CONFIG_PAGES, CONFIG_SEARCH_POSTS } from 'src/common/common.constants';
 import { JwtService } from 'src/jwt/jwt.service';
 import { User } from 'src/users/entities/user.entity';
 import { ILike, Repository } from 'typeorm';
@@ -219,14 +219,14 @@ export class PostService {
         order: {
           createdAt: 'DESC',
         },
-        skip: (page - 1) * CONFIG_PAGES,
-        take: CONFIG_PAGES,
+        skip: (page - 1) * CONFIG_SEARCH_POSTS,
+        take: CONFIG_SEARCH_POSTS,
       });
       return {
         ok: true,
         posts,
         totalResults,
-        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
       };
     } catch {
       return { ok: false, error: '게시물을 검색하는데 실패했습니다.' };
@@ -266,7 +266,28 @@ export class PostService {
       throw err;
     }
   }
-
+  async allArtists({ page }: ArtistInput): Promise<ArtistOutput> {
+    try {
+      const [artists, totalResults] = await this.artists.findAndCount({
+        skip: (page - 1) * CONFIG_PAGES,
+        take: CONFIG_PAGES,
+        order: {
+          createdAt: 'DESC',
+        },
+      });
+      return {
+        ok: true,
+        artists,
+        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalResults,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: '게시글 불러오는데 실패했습니다.',
+      };
+    }
+  }
   async findArtistBySlug({ slug, page }: ArtistInput): Promise<ArtistOutput> {
     try {
       const artist = await this.artists.findOne({ slug });
@@ -283,14 +304,14 @@ export class PostService {
         order: {
           createdAt: 'DESC',
         },
-        take: CONFIG_PAGES,
-        skip: (page - 1) * CONFIG_PAGES,
+        take: CONFIG_SEARCH_POSTS,
+        skip: (page - 1) * CONFIG_SEARCH_POSTS,
       });
       return {
         ok: true,
         posts,
         artist,
-        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
         totalResults,
       };
     } catch {

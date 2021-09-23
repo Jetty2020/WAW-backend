@@ -108,7 +108,12 @@ export class ArtistResolver {
   constructor(private readonly postService: PostService) {}
 
   @Query(() => ArtistOutput)
-  artist(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
+  getArtists(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
+    return this.postService.allArtists(artistInput);
+  }
+
+  @Query(() => ArtistOutput)
+  findByArtist(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
     return this.postService.findArtistBySlug(artistInput);
   }
 }

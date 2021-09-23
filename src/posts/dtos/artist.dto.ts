@@ -8,14 +8,17 @@ import { Post } from '../entities/post.entity';
 
 @InputType()
 export class ArtistInput extends PaginationInput {
-  @Field(() => String)
-  slug: string;
+  @Field(() => String, { nullable: true })
+  slug?: string;
 }
 
 @ObjectType()
 export class ArtistOutput extends PaginationOutput {
   @Field(() => [Post], { nullable: true })
   posts?: Post[];
+
+  @Field(() => [Artist], { nullable: true })
+  artists?: Artist[];
 
   @Field(() => Artist, { nullable: true })
   artist?: Artist;
