@@ -216,14 +216,17 @@ export class PostService {
         where: {
           title: ILike(`%${query}%`),
         },
-        skip: (page - 1) * 25,
-        take: 25,
+        order: {
+          createdAt: 'DESC',
+        },
+        skip: (page - 1) * CONFIG_PAGES,
+        take: CONFIG_PAGES,
       });
       return {
         ok: true,
         posts,
         totalResults,
-        totalPages: Math.ceil(totalResults / 25),
+        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
       };
     } catch {
       return { ok: false, error: '게시물을 검색하는데 실패했습니다.' };
