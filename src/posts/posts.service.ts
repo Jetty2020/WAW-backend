@@ -20,6 +20,10 @@ import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
+import {
+  SearchByArtistInput,
+  SearchByArtistOutput,
+} from './dtos/search-by-artist.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
@@ -266,6 +270,33 @@ export class PostService {
       throw err;
     }
   }
+
+  async searchByArtist({
+    artistId,
+    page,
+  }: SearchByArtistInput): Promise<SearchByArtistOutput> {
+    try {
+      const [posts, totalResults] = await this.posts.findAndCount({
+        where: {
+          artist: artistId,
+        },
+        order: {
+          createdAt: 'DESC',
+        },
+        skip: (page - 1) * CONFIG_SEARCH_POSTS,
+        take: CONFIG_SEARCH_POSTS,
+      });
+      return {
+        ok: true,
+        posts,
+        totalResults,
+        totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
+      };
+    } catch {
+      return { ok: false, error: '게시물을 검색하는데 실패했습니다.' };
+    }
+  }
+
   async allArtists(): Promise<ArtistsOutput> {
     try {
       const [artists, totalResults] = await this.artists.findAndCount({

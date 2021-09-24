@@ -26,6 +26,10 @@ import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
 import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
+import {
+  SearchByArtistInput,
+  SearchByArtistOutput,
+} from './dtos/search-by-artist.dto';
 import { SearchPostInput, SearchPostOutput } from './dtos/search-post.dto';
 import { ToggleLikeInput, ToggleLikeOutput } from './dtos/toggle-like.dto';
 import { Artist } from './entities/artist.entity';
@@ -101,6 +105,13 @@ export class PostResolver {
   @ResolveField(() => Boolean)
   isLike(@Context() ctx: any, @Parent() post: Post) {
     return this.postService.checkILike(ctx, post);
+  }
+
+  @Query(() => SearchByArtistOutput)
+  searchByArtist(
+    @Args('input') searchByArtistInput: SearchByArtistInput,
+  ): Promise<SearchByArtistOutput> {
+    return this.postService.searchByArtist(searchByArtistInput);
   }
 }
 @Resolver(() => Artist)
