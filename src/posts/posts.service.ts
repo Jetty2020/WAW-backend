@@ -4,7 +4,7 @@ import { CONFIG_PAGES, CONFIG_SEARCH_POSTS } from 'src/common/common.constants';
 import { JwtService } from 'src/jwt/jwt.service';
 import { User } from 'src/users/entities/user.entity';
 import { ILike, Repository } from 'typeorm';
-import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
+import { ArtistsOutput } from './dtos/artists.dto';
 import {
   CreateCommentInput,
   CreateCommentOutput,
@@ -266,11 +266,9 @@ export class PostService {
       throw err;
     }
   }
-  async allArtists({ page }: ArtistInput): Promise<ArtistOutput> {
+  async allArtists(): Promise<ArtistsOutput> {
     try {
       const [artists, totalResults] = await this.artists.findAndCount({
-        skip: (page - 1) * CONFIG_PAGES,
-        take: CONFIG_PAGES,
         order: {
           createdAt: 'DESC',
         },
@@ -278,46 +276,12 @@ export class PostService {
       return {
         ok: true,
         artists,
-        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
         totalResults,
       };
     } catch {
       return {
         ok: false,
         error: '게시글 불러오는데 실패했습니다.',
-      };
-    }
-  }
-  async findArtistBySlug({ slug, page }: ArtistInput): Promise<ArtistOutput> {
-    try {
-      const artist = await this.artists.findOne({ slug });
-      if (!artist) {
-        return {
-          ok: false,
-          error: '작가를 찾을 수 없습니다.',
-        };
-      }
-      const [posts, totalResults] = await this.posts.findAndCount({
-        where: {
-          artist,
-        },
-        order: {
-          createdAt: 'DESC',
-        },
-        take: CONFIG_SEARCH_POSTS,
-        skip: (page - 1) * CONFIG_SEARCH_POSTS,
-      });
-      return {
-        ok: true,
-        posts,
-        artist,
-        totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
-        totalResults,
-      };
-    } catch {
-      return {
-        ok: false,
-        error: '작가를 불러오는데 실패했습니다.',
       };
     }
   }

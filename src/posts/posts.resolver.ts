@@ -10,7 +10,7 @@ import {
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { Role } from 'src/auth/role.decorator';
 import { User } from 'src/users/entities/user.entity';
-import { ArtistInput, ArtistOutput } from './dtos/artist.dto';
+import { ArtistsOutput } from './dtos/artists.dto';
 import {
   CreateCommentInput,
   CreateCommentOutput,
@@ -107,14 +107,9 @@ export class PostResolver {
 export class ArtistResolver {
   constructor(private readonly postService: PostService) {}
 
-  @Query(() => ArtistOutput)
-  getArtists(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
-    return this.postService.allArtists(artistInput);
-  }
-
-  @Query(() => ArtistOutput)
-  findByArtist(@Args('input') artistInput: ArtistInput): Promise<ArtistOutput> {
-    return this.postService.findArtistBySlug(artistInput);
+  @Query(() => ArtistsOutput)
+  getArtists(): Promise<ArtistsOutput> {
+    return this.postService.allArtists();
   }
 }
 
