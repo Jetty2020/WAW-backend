@@ -30,13 +30,13 @@ export class UserService {
       if (existsEmail) {
         return {
           ok: false,
-          error: `${email} 은 이미 사용하는 메일 주소입니다.`,
+          error: `'${email}' 은 이미 사용하는 메일 주소입니다.`,
         };
       }
       if (existsNickname) {
         return {
           ok: false,
-          error: `${nickname} 은 이미 사용하는 Username입니다.`,
+          error: `'${nickname}' 은 이미 사용하는 Username입니다.`,
         };
       }
       await this.users.save(
@@ -95,12 +95,26 @@ export class UserService {
 
   async editProfile(
     userId: number,
-    { email, password }: EditProfileInput,
+    { email, nickname }: EditProfileInput,
   ): Promise<EditProfileOutput> {
     try {
+      const existsEmail = await this.users.findOne({ email });
+      const existsNickname = await this.users.findOne({ nickname });
+      if (existsEmail && userId !== existsEmail.id) {
+        return {
+          ok: false,
+          error: `'${email}' 은 이미 사용하는 메일 주소입니다.`,
+        };
+      }
+      if (existsNickname && userId !== existsNickname.id) {
+        return {
+          ok: false,
+          error: `'${nickname}' 은 이미 사용하는 이름입니다.`,
+        };
+      }
       const user = await this.users.findOne(userId);
       user.email = email;
-      user.password = password;
+      user.nickname = nickname;
       await this.users.save(user);
       return {
         ok: true,
