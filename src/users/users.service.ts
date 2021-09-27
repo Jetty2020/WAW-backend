@@ -8,7 +8,7 @@ import {
 } from './dtos/create-account.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
-import { UserProfileOutput } from './dtos/user-profile.dto';
+import { UserProfileOutput } from './dtos/me';
 import { User } from './entities/user.entity';
 
 @Injectable()
