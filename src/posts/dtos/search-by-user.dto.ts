@@ -15,4 +15,7 @@ export class SearchByUserInput extends PaginationInput {
 export class SearchByUserOutput extends PaginationOutput {
   @Field(() => [Post], { nullable: true })
   posts?: Post[];
+
+  @Field(() => String)
+  userName?: string;
 }

@@ -41,6 +41,7 @@ export class PostService {
     @InjectRepository(Post)
     private readonly posts: Repository<Post>,
     private readonly artists: ArtistRepository,
+    @InjectRepository(User) private readonly users: Repository<User>,
     @InjectRepository(Like)
     private readonly likes: Repository<Like>,
     private readonly jwtService: JwtService,
@@ -112,9 +113,11 @@ export class PostService {
           createdAt: 'DESC',
         },
       });
+      const user = await this.users.findOne(userId);
       return {
         ok: true,
         posts,
+        userName: user.nickname,
         totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
         totalResults,
       };
