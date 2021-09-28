@@ -6,10 +6,13 @@ import {
 import { Post } from '../entities/post.entity';
 
 @InputType()
-export class MyPostsInput extends PaginationInput {}
+export class SearchByUserInput extends PaginationInput {
+  @Field(() => Number)
+  userId: number;
+}
 
 @ObjectType()
-export class MyPostsOutput extends PaginationOutput {
+export class SearchByUserOutput extends PaginationOutput {
   @Field(() => [Post], { nullable: true })
   posts?: Post[];
 }

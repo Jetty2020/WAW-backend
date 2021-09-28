@@ -23,7 +23,10 @@ import {
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edit-post.dto';
 import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
-import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
+import {
+  SearchByUserInput,
+  SearchByUserOutput,
+} from './dtos/search-by-user.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import {
@@ -56,13 +59,12 @@ export class PostResolver {
     return this.postService.allPosts(postsInput);
   }
 
-  @Query(() => MyPostsOutput)
+  @Query(() => SearchByUserOutput)
   @Role(['Any'])
-  myPosts(
-    @AuthUser() writer: User,
-    @Args('input') myPostsInput: MyPostsInput,
-  ): Promise<MyPostsOutput> {
-    return this.postService.myPosts(writer, myPostsInput);
+  searchByUser(
+    @Args('input') searchByUserInput: SearchByUserInput,
+  ): Promise<SearchByUserOutput> {
+    return this.postService.searchByUser(searchByUserInput);
   }
 
   @Query(() => PostDetailOutput)

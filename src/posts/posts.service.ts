@@ -17,7 +17,10 @@ import {
 import { DeletePostInput, DeletePostOutput } from './dtos/delete-post.dto';
 import { EditPostInput, EditPostOutput } from './dtos/edit-post.dto';
 import { GetCommentsInput, GetCommentsOutput } from './dtos/getComments.dto';
-import { MyPostsInput, MyPostsOutput } from './dtos/my-posts.dto';
+import {
+  SearchByUserInput,
+  SearchByUserOutput,
+} from './dtos/search-by-user.dto';
 import { PostDetailInput, PostDetailOutput } from './dtos/postDetail.dto';
 import { PostsInput, PostsOutput } from './dtos/posts.dto';
 import {
@@ -94,14 +97,17 @@ export class PostService {
     }
   }
 
-  async myPosts(writer: User, { page }: MyPostsInput): Promise<MyPostsOutput> {
+  async searchByUser({
+    userId,
+    page,
+  }: SearchByUserInput): Promise<SearchByUserOutput> {
     try {
       const [posts, totalResults] = await this.posts.findAndCount({
         where: {
-          writer,
+          writer: userId,
         },
-        skip: (page - 1) * CONFIG_PAGES,
-        take: CONFIG_PAGES,
+        skip: (page - 1) * CONFIG_SEARCH_POSTS,
+        take: CONFIG_SEARCH_POSTS,
         order: {
           createdAt: 'DESC',
         },
@@ -109,13 +115,13 @@ export class PostService {
       return {
         ok: true,
         posts,
-        totalPages: Math.ceil(totalResults / CONFIG_PAGES),
+        totalPages: Math.ceil(totalResults / CONFIG_SEARCH_POSTS),
         totalResults,
       };
     } catch {
       return {
         ok: false,
-        error: '내 게시글을 불러오는데 실패했습니다.',
+        error: '게시글을 불러오는데 실패했습니다.',
       };
     }
   }
