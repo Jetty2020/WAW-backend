@@ -60,7 +60,6 @@ export class PostResolver {
   }
 
   @Query(() => SearchByUserOutput)
-  @Role(['Any'])
   searchByUser(
     @Args('input') searchByUserInput: SearchByUserInput,
   ): Promise<SearchByUserOutput> {
