@@ -5,6 +5,11 @@
 - Backend
   ![Generic badge](https://img.shields.io/badge/nestjs-8.0.0-E0234E.svg) ![Generic badge](https://img.shields.io/badge/apollo-2.25.2-311C87.svg) ![Generic badge](https://img.shields.io/badge/graphql-15.5.1-E434AA.svg) ![Generic badge](https://img.shields.io/badge/typeorm-0.2.36-FFAC00.svg) ![Generic badge](https://img.shields.io/badge/typescript-4.3.5-3178C6.svg) ![Generic badge](https://img.shields.io/badge/aws_sdk-2.966.0-EB5F06.svg)
 
+## Duration of work
+2021/08/5 ~ 2021/08/13 (total 9days)
+
+## FrontEnd
+[Frontend github link](https://github.com/Jetty2020/WAW-frontend)
 ## Core features
 
 ---
