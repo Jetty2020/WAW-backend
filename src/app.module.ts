@@ -44,8 +44,8 @@ import { UploadsModule } from './upload/uploads.module';
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
           }),
-      synchronize: process.env.NODE_ENV !== 'production',
-      logging: process.env.NODE_ENV !== 'production',
+      synchronize: process.env.NODE_ENV !== 'prod',
+      logging: process.env.NODE_ENV !== 'prod',
       entities: [User, Post, Artist, Like, Comment],
     }),
     GraphQLModule.forRoot({
